@@ -28,7 +28,7 @@ public class Movimiento {
 
     private Timestamp fecha;
 
-    private BigDecimal tipoMovimiento;
+    private String tipoMovimiento;
 
     private BigDecimal valor;
 

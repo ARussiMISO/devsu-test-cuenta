@@ -26,8 +26,8 @@ public class MovimientoDTO {
     private Timestamp fecha;
 
     @NotBlank(message = "Tipo de movimiento no puede ser vacío")
-    @Pattern(regexp = "^[0-9]+$", message = "Tipo de movimiento debe contener sólo números")
-    private BigDecimal tipoMovimiento;
+    @Pattern(regexp = "^[0-9]+$", message = "Valor de movimiento debe contener sólo números")
+    private String tipoMovimiento;
 
     @NotBlank(message = "Valor de movimiento no puede ser vacío")
     @Pattern(regexp = "^[0-9]+$", message = "Valor de movimiento debe contener sólo números")
