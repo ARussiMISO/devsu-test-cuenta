@@ -2,6 +2,7 @@ package com.devsu.cuenta.model;
 
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.sql.Timestamp;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -25,7 +26,7 @@ public class Movimiento {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    private Date fecha;
+    private Timestamp fecha;
 
     private BigDecimal tipoMovimiento;
 
