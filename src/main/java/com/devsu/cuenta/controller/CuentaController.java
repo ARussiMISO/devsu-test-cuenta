@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.devsu.cuenta.dto.CuentaDTO;
 import com.devsu.cuenta.handlerException.dto.ExceptionMessage;
+import com.devsu.cuenta.handlerException.exception.AlreadyExistsException;
 import com.devsu.cuenta.handlerException.exception.NotFoundException;
 import com.devsu.cuenta.service.CuentaService;
 
@@ -45,6 +46,49 @@ public class CuentaController {
     public ResponseEntity<CuentaDTO> obtenerCuenta(@PathVariable @NotBlank String numeroCuenta)
             throws NotFoundException {
         return ResponseEntity.ok(this.cuentaService.obtenerCuenta(numeroCuenta));
-    } 
+    }
+
+    @Operation(summary = "Obtener todas las cuentas")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Cuentas existentes", content = @Content(schema = @Schema(implementation = CuentaDTO.class))),
+            @ApiResponse(responseCode = "404", description = "No existen cuentas", content = @Content(schema = @Schema(implementation = ExceptionMessage.class)))
+    })
+    @GetMapping(value = "/all", produces = "application/json")
+    public ResponseEntity<List<CuentaDTO>> obtenerTodasCuentas() throws NotFoundException {
+        return ResponseEntity.ok(this.cuentaService.obtenerTodasCuentas());
+    }
+
+    @Operation(summary = "Crear Cuenta")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Cuenta creada", content = @Content(schema = @Schema(implementation = CuentaDTO.class))),
+            @ApiResponse(responseCode = "409", description = "Cuenta ya existe", content = @Content(schema = @Schema(implementation = ExceptionMessage.class))),
+            @ApiResponse(responseCode = "400", description =  "La Cuenta tiene atributos invalidos", content = @Content(schema = @Schema(implementation = String.class)))
+    })
+    @PostMapping(produces = "application/json", consumes = "application/json")
+    public ResponseEntity<CuentaDTO> crearCuenta(@RequestBody  @Valid CuentaDTO cuentaDTO) throws AlreadyExistsException {
+        return new ResponseEntity<>(this.cuentaService.crearCuenta(cuentaDTO), HttpStatus.CREATED);
+    }
+
+    @Operation(summary = "Actualizar Cuenta")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Cuenta actualizada", content = @Content(schema = @Schema(implementation = CuentaDTO.class))),
+            @ApiResponse(responseCode = "404", description = "No existe Cuenta para actualizar", content = @Content(schema = @Schema(implementation = ExceptionMessage.class)))
+    })
+    @PutMapping(produces = "application/json", consumes = "application/json")
+    public ResponseEntity<CuentaDTO> actualizarCuenta(@RequestBody  @Valid CuentaDTO cuentaDTO) throws AlreadyExistsException, NotFoundException {
+        return ResponseEntity.ok(this.cuentaService.actualizarCuenta(cuentaDTO));
+    }
+
+    @Operation(summary = "Eliminar Cuenta")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Cuenta eliminada", content = @Content(schema = @Schema(implementation = String.class))),
+            @ApiResponse(responseCode = "404", description = "No existe Cuenta para eliminar", content = @Content(schema = @Schema(implementation = ExceptionMessage.class)))
+    })
+    @DeleteMapping(value = "/{numeroCuenta}", produces = "application/json")
+    public ResponseEntity<String> eliminarCuenta(@PathVariable @NotBlank String numeroCuenta) throws NotFoundException {
+        this.cuentaService.eliminarCuenta(numeroCuenta);
+        return new ResponseEntity<>("Cuenta eliminada", HttpStatus.NO_CONTENT);
+
+    }
 
 }
