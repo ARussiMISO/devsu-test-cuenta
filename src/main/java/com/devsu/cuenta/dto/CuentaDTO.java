@@ -3,7 +3,10 @@ package com.devsu.cuenta.dto;
 import java.math.BigDecimal;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.PositiveOrZero;
@@ -30,10 +33,13 @@ public class CuentaDTO {
     @Positive(message = "Tipo cuenta debe ser mayor que cero")
     private int tipoCuenta;
 
-    @NotBlank(message = "Tipo cuenta no puede ser vacío")
+    @NotNull(message = "Tipo cuenta no puede ser vacío")
     @Pattern(regexp = "^[0-9]+$", message = "Tipo de cuenta debe contener sólo números")
     @PositiveOrZero(message = "Tipo cuenta debe ser mayor o igual que cero")
     private BigDecimal saldoInicial;
+
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    private BigDecimal saldoDisponible;
 
     @NotBlank(message = "El estado no debe estar vacío")
     private Boolean estado;

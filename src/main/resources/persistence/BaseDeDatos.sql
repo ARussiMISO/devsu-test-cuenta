@@ -3,6 +3,7 @@ CREATE TABLE IF NOT EXISTS cuenta (
     tipoCuenta INTEGER NOT NULL,
     numeroCuenta DECIMAL NOT NULL,
     saldoInicial DECIMAL NOT NULL,
+    saldoDisponible DECIMAL NOT NULL,
     estado BOOLEAN NOT NULL,
     cliente VARCHAR(100) NOT NULL
 
@@ -11,10 +12,10 @@ CREATE TABLE IF NOT EXISTS cuenta (
 CREATE TABLE IF NOT EXISTS movimiento (
     id INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     fecha TIMESTAMP NOT NULL,
-    tipoMovimiento DECIMAL NOT NULL,
+    tipoMovimiento VARCHAR(100) NOT NULL,
     valor DECIMAL NOT NULL,
     saldo DECIMAL NOT NULL,
-    cuentaId INTEGER NOT NULL,
-    FOREIGN KEY (cuentaId) REFERENCES cuenta(id)
+    numeroCuenta INTEGER NOT NULL,
+    FOREIGN KEY (numeroCuenta) REFERENCES cuenta(numeroCuenta)
 
 );

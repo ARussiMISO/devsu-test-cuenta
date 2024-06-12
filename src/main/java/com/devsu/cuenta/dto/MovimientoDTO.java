@@ -4,7 +4,10 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.PositiveOrZero;
@@ -26,19 +29,20 @@ public class MovimientoDTO {
     private Timestamp fecha;
 
     @NotBlank(message = "Tipo de movimiento no puede ser vacío")
-    @Pattern(regexp = "^[0-9]+$", message = "Valor de movimiento debe contener sólo números")
+    @Size(max = 100, message = "El tipo de movimiento debe tener máximo 100 caracteres")
     private String tipoMovimiento;
 
-    @NotBlank(message = "Valor de movimiento no puede ser vacío")
-    @Pattern(regexp = "^[0-9]+$", message = "Valor de movimiento debe contener sólo números")
+    @NotNull(message = "Valor de movimiento no puede ser vacío")
+    //@Pattern(regexp = "^[0-9]+$", message = "Valor de movimiento debe contener sólo números")
     private BigDecimal valor;
 
-    @NotBlank(message = "Saldo no puede ser vacío")
-    @Pattern(regexp = "^[0-9]+$", message = "Saldo debe contener sólo números")
+    //@NotBlank(message = "Saldo no puede ser vacío")
+    //@Pattern(regexp = "^[0-9]+$", message = "Saldo debe contener sólo números")
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private BigDecimal saldo;
 
-    @NotBlank(message = "Cuenta id no puede ser vacía")
-    @Pattern(regexp = "^[0-9]+$", message = "Cuenta id debe contener sólo números")
-    private long cuentaId;
+    @NotBlank(message = "Numero cuenta no puede ser vacío")
+    @Pattern(regexp = "^[0-9]+$", message = "Numero cuenta debe contener sólo números")
+    private long numeroCuenta;
 
 }

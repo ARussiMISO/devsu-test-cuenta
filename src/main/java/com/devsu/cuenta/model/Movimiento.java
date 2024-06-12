@@ -34,6 +34,6 @@ public class Movimiento {
 
     private BigDecimal saldo;
 
-    private long cuentaId;
+    private long numeroCuenta;
 
 }

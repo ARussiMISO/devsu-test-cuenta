@@ -37,6 +37,18 @@ public class CuentaService {
             throw new ValidationException("Numero cuenta inválido");
     }
 
+    public List<CuentaDTO> obtenerCuentasPorNombre(String nombreCliente) throws NotFoundException {
+        if (!nombreCliente.isBlank()) {
+            List<Cuenta> cuentasEncontradas = this.cuentaRepository.findAllByCliente(nombreCliente);
+
+            if (!cuentasEncontradas.isEmpty())
+                return cuentasEncontradas.stream().map(cuenta -> MapeadorCuenta.mapearEntidadDTOMovimientos(cuenta)).toList();
+            else
+                throw new NotFoundException("Cuentas no encontradas");
+        } else
+            throw new ValidationException("Cliente inválido");
+    }
+
     public List<CuentaDTO> obtenerTodasCuentas() throws NotFoundException {
         List<Cuenta> cuentasEncontradas = this.cuentaRepository.findAll();
 

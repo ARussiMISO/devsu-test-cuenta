@@ -25,4 +25,18 @@ public class MapeadorCuenta {
 
     }
 
+    public static CuentaDTO mapearEntidadDTOMovimientos(Cuenta cuenta){
+        CuentaDTO cuentaDTO = new CuentaDTO();
+
+        BeanUtils.copyProperties(cuenta, cuentaDTO);
+        if(!cuenta.getMovimientos().isEmpty()){
+            cuentaDTO.setMovimientos(cuenta.getMovimientos().stream().map(movimiento -> 
+                MapeadorMovimiento.mapearEntidadDTO(movimiento)).toList());
+        }
+        
+
+        return cuentaDTO;
+
+    }
+
 }

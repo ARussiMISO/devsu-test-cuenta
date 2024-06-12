@@ -38,12 +38,14 @@ public class Cuenta {
 
     private BigDecimal saldoInicial;
 
+    private BigDecimal saldoDisponible;
+
     private Boolean estado;
 
     private String cliente;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "cuentaId", referencedColumnName = "id")
+    @JoinColumn(name = "numeroCuenta", referencedColumnName = "numeroCuenta")
     private List<Movimiento> movimientos;
 
 }
