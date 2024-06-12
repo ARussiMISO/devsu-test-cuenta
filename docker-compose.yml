@@ -1,0 +1,45 @@
+version: '3.4'
+networks:
+  all:
+    driver: bridge
+  cuenta-network:
+    driver: bridge
+services:
+  devsu-test-cuenta:
+    container_name: devsu-test-cuenta
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      ENVIRONMENT: production
+      DB_NAME: cuentas
+      DB_HOST: test-cuenta_db
+      DB_PORT: 5432
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+    depends_on:
+      test-cuenta_db:
+        condition: service_healthy
+    networks:
+      - all
+      - cuenta-network
+  test-cuenta_db:
+    container_name: test-cuenta_db
+    build:
+      context: .
+      dockerfile: database.dockerfile
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: cuentas
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 2s
+      timeout: 5s
+      retries: 5
+    networks:
+      - cuenta-network
