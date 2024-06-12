@@ -4,6 +4,7 @@ CREATE TABLE IF NOT EXISTS cuenta (
     numeroCuenta DECIMAL NOT NULL,
     saldoInicial DECIMAL NOT NULL,
     estado BOOLEAN NOT NULL,
+    cliente VARCHAR(100) NOT NULL
 
 );
 
